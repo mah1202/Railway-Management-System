@@ -1,0 +1,162 @@
+/*                                    SQL PROJECT - "RAILWAY DATABASE" -  
+
+
+TICKET LIST OF PASSENGERS WITH THEIR USERNAMES TRAVELLING IN  7 EXPRESS TRAINS AND THE TRAIN DETAILS
+
+TABLES CREATED - 5
+
+1)USER ID DETAILS- ( CREATED AND DATA INSERTED BY MAHESH)
+
+2)PASSENGER DETAILS- (CREATED AND DATA INSERTED BY MAHESH)
+
+3)TRAIN DETAILS- (CREATED AND DATA INSERTED BY DONI)
+
+4)STATION DETAILS-( CREATED AND DATA INSERTED BY SIVASHANMUGAM)
+
+5)TICKET DETAILS - ( LINKED USING REF WITH ABOVE TABLES BY THE TEAM)
+ */
+
+
+create database Railwaydatabase;
+use railwaydatabase;
+
+
+create table USER(user_id int primary key,NAME VARCHAR(30),GENDER VARCHAR(10),AGE INT,MOBILE_NO BIGINT,PINCODE BIGINT);
+DESC USER;
+
+
+
+create table PASSENGER(passenger_id int primary key,PNR_NO BIGINT,NAME VARCHAR(30),GENDER VARCHAR(10),AGE INT,USER_ID INT,RESERVATION_STATUS VARCHAR(10),COACH_NUMBER VARCHAR(10),SEAT_NUMBER VARCHAR(10),FOREIGN KEY(USER_ID) REFERENCES USER(USER_ID));
+DESC PASSENGER;
+alter table passenger modify column user_id varchar(25);
+
+
+create table TRAIN(TRAIN_NO INT PRIMARY KEY,TRAIN_NAME VARCHAR(50),ARRIVAL_TIME VARCHAR(10),DEPARTURE_TIME VARCHAR(10),DATE VARCHAR(10));
+DESC TRAIN;
+
+
+CREATE TABLE STATION(NUMBER INT,NAME VARCHAR(20),HAULT VARCHAR(15),ARRIVAL_TIME VARCHAR(12),TRAIN_NO INT,foreign key(TRAIN_NO) references TRAIN(TRAIN_NO));
+DESC STATION;
+
+
+create table TICKET(USER_ID INT,PASSENGER_ID INT,train_no int,FOREIGN KEY(user_id) REFERENCES USER(USER_ID),foreign key(passenger_id) references passenger(passenger_id),foreign key(train_no) references train(train_no));
+alter table ticket modify column user_id varchar(25);
+DESC TICKET;
+
+
+
+INSERT INTO train (train_no, train_name, arrival_time, departure_time, date)
+VALUES
+    (12647, 'Kongu Express', '08:00:00', '08:30:00', '2023-09-05'),
+    (12617, 'Mangalore Express', '10:00:00', '10:30:00', '2023-09-06'),
+    (12672, 'Nilgiri Express', '12:00:00', '12:30:00', '2023-09-07'),
+    (12203, 'Garib Rath Express', '14:00:00', '14:30:00', '2023-09-08'),
+    (12673, 'Cheran Express', '16:00:00', '16:30:00', '2023-09-09'),
+    (12682, 'Chennai Intercity Express', '18:00:00', '18:30:00', '2023-09-10'),
+    (12633, 'Kanyakumari Express', '20:00:00', '20:30:00', '2023-09-11');
+select * from train;
+
+ALTER TABLE STATION MODIFY COLUMN NAME VARCHAR(150);
+
+alter table station rename column number to STATION_NUMBER;
+
+
+insert into station(NUMBER ,NAME ,HAULT ,ARRIVAL_TIME,TRAIN_NO)values
+(101,'DR.MGR CENTRAL RAILWAY STATION','CHENNAI','12:00:00',12672),
+(212,'SALEM RAILWAY STATION','SALEM','08:00',12647),
+(312,'TIRUPPUR RAILWAY STATION','TIRUPPUR','10:00:00',12617),
+(412,'KARUR RAILWAY STATION','KARUR','16:00:00',12673),
+(512,'HAZRAT NIZZAMUDDIN RAILWAY STATION','DELHI','14:00:00',12203),
+(612,'COIMBATORE RAILWAY STATION','COIMBATORE','18:00:00',12682),
+(712,'KANYAKUMARI RAILWAY STATION','KANYAKUMARI','20:00:00',12633);
+
+
+SELECT * FROM STATION;
+
+insert into passenger(passenger_id,PNR_NO,NAME,GENDER,AGE,USER_ID,RESERVATION_STATUS,COACH_NUMBER,SEAT_NUMBER)
+values
+(21001,4014554642,'MAHESH','MALE',25,'LMKr1998','CNF','S12',16),
+(21002,4014654542,'SABARISH','MALE',24,'sabarishr@1512','CNF','S11',21),
+(21003,4014456452,'NITHYA','FEMALE',26,'nithya@1003','CNF','S11',20),
+(21004,4014346542,'DHANA','FEMALE',25,'dhanasri@1104','CNF','S10',43),
+(21005,4014559872,'ARUN','MALE',29,'ARUNr1202','CNF','S9',11),
+(21006,4014678542,'HARISH','MALE',34,'harishr@1234','CNF','S8',68),
+(21007,4014452652,'VIMALI','FEMALE',24,'vimali@1203','CNF','S10',44),
+(21008,4014341230,'SURYA','FEMALE',25,'surya@1104','CNF','S4',66),
+(21009,4014554987,'MANI','MALE',35,'mani@1008','CNF','S5',52),
+(21010,4014654456,'SUBHASH','MALE',34,'ssubhash@1120','CNF','S6',63),
+(21011,4014456123,'RAMYA','FEMALE',36,'ramya@1475','CNF','S7',25),
+(21012,4014346654,'ANU','FEMALE',25,'anusri@1110','CNF','S8',42),
+(21013,4014578921,'SURESH','MALE',55,'sureshk@1002','CNF','S2',85),
+(21014,4234567890,'DEEPAK','MALE',34,'deepak@1001','CNF','S1',41),
+(21015,7894152630,'SANGEETHA','FEMALE',36,'sangee@456','CNF','S11',35),
+(21016,5263346578,'VIJAYA','FEMALE',65,'vijaya@0023','CNF','S8',36),
+(21017,6352578642,'RAM','MALE',45,'ramu@1203','CNF','S2',12),
+(21018,7485678123,'NITHISH','MALE',44,'nithisr@789','CNF','S1',41),
+(21019,4014856452,'BRINDA','FEMALE',28,'brinda@1112','CNF','S2',78),
+(21020,4014346478,'VAISHNAVI','FEMALE',29,'vaishnavi@1211','CNF','S6',48);
+
+select * from passenger;
+select * from train;
+select * from station;
+select * from ticket;
+desc ticket;
+
+select train_no from train;
+insert into user(user_id,NAME,GENDER,AGE,MOBILE_NO,PINCODE) values
+('anusri@1110','ANU','FEMALE',25,9856231245,636106),
+('ARUNr1202','ARUN','MALE',29,9764314613,636102),
+('brinda@1112','BRINDA','FEMALE',28,9846256312,636101),
+('deepak@1001','DEEPAK','MALE',34,9442749566,636105),
+('dhanasri@1104','DHANA','FEMALE',25,9442728422,636142),
+('harishr@1234','HARISH','MALE',34,9965861073,6000103),
+('LMKr1998','MAHESH','MALE',25,6281460186,636106),
+('mani@1008','MANI','MALE',35,7485962563,600123),
+('nithisr@789','NITHISH','MALE',44,9487269169,600124),
+('nithya@1003','NITHYA','FEMALE',26,9894442642,645654),
+('ramu@1203','RAM','MALE',45,9486769169,630103),
+('ramya@1475','RAMYA','FEMALE',25,9444589169,612320),
+('sabarishr@1512','SABARISH','MALE',24,9635241780,600520),
+('sangee@456','SANGEETHA','FEMALE',36,9638527410,600102),
+('ssubhash@1120','SUBAHSH','MALE',34,7485964152,636106),
+('sureshk@1002','SURESH','MALE',55,9754621301,600103),
+('surya@1104','SURYA','MALE',25,6352417890,600156),
+('vaishnavi@1211','VAISHNAVI','FEMALE',29,9871234560,600589),
+('vijaya@0023','VIJAYA','FEMALE',65,6352417485,600103),
+('vimali@1203','VIMALI','FEMALE',24,9638521470,600104);
+
+select passenger_id,name from passenger;
+
+
+select * from user;
+desc ticket;
+alter table ticket add column ticket_status varchar(10);
+insert into ticket(user_id,passenger_id,train_no)values
+('anusri@1110',21012,12203),
+('ARUNr1202',21005,12617),
+('brinda@1112',21019,12633),
+('deepak@1001',21014,12647),
+('dhanasri@1104',21004,12672),
+('harishr@1234',21006,12673),
+('LMKr1998',21001,12682),
+('mani@1008',21009,12203),
+('nithisr@789',21018,12617),
+('ramu@1203',21017,12633),
+('ramya@1475',21011,12647),
+('sabarishr@1512',21002,12672),
+('vimali@1203',21007,12673),
+('vijaya@0023',21016,12682),
+('vaishnavi@1211',21020,12617),
+('surya@1104',21008,12633),
+('sureshk@1002',21013,12203),
+('ssubhash@1120',21010,12647),
+('sangee@456',21015,12682);
+
+
+select * from ticket;
+SET SQL_SAFE_UPDATES=0;
+
+update ticket set ticket_status='CNF';
+alter table ticket add column destination varchar(30);
+update ticket set destination='coimbatore' where train_no=12682;
+select count(*)from ticket where train_no=12633;
